@@ -1,0 +1,6 @@
+{
+  "domains": "sensor",
+  "iot_class": "Cloud Polling",
+  "name": "HiMama",
+  "render_readme": true
+}

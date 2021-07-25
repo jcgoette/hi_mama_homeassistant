@@ -1,0 +1,10 @@
+name: Home Assistant
+
+on: [push, pull_request]
+
+jobs:
+  hassfest:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "home-assistant/actions/hassfest@master"
