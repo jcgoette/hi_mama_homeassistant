@@ -64,7 +64,7 @@ def report_parser(report):
     return parsed_tuple
 
 
-def pymama(login: str, password: str, child_id: str) -> dict:
+def pymama_query(login: str, password: str, child_id: str) -> dict:
     """Given a login, password, and child_id, returns a dict containing all available reports and datapoints in dictionary format"""
     response = response_noline("https://www.himama.com/login")
 
@@ -136,4 +136,4 @@ def pymama(login: str, password: str, child_id: str) -> dict:
 if __name__ == "__main__":
     import sys
 
-    print(pymama(sys.argv[1], sys.argv[2], sys.argv[3]))
+    print(pymama_query(sys.argv[1], sys.argv[2], sys.argv[3]))

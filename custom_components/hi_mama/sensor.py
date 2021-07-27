@@ -11,7 +11,7 @@ from homeassistant.helpers.entity import Entity
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 
 from .const import DOMAIN
-from .pymama import pymama
+from .pymama import pymama_query
 
 # TODO: add error logging
 _LOGGER = logging.getLogger(__name__)
@@ -116,8 +116,7 @@ class HiMamaData:
         self._child_id = child_id
 
     def HiMamaQuery(self) -> dict:
-        """Query Hi Mama for data."""
-        pymama_data = pymama(self._email, self._password, self._child_id)
+        pymama_data = pymama_query(self._email, self._password, self._child_id)
         pymama_latest = pymama_data.get("Latest")
         return pymama_latest
 
