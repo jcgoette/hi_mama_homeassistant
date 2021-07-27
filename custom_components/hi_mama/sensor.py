@@ -1,4 +1,4 @@
-"""Platform for Hi Mama sensor integration."""
+"""Platform for HiMama sensor integration."""
 import logging
 from datetime import datetime, time, timedelta
 
@@ -24,7 +24,7 @@ async def async_setup_entry(
     entry: ConfigEntry,
     async_add_entities: AddEntitiesCallback,
 ) -> None:
-    """Setup Hi Mama sensors from a config entry created in the integrations UI."""
+    """Setup HiMama sensors from a config entry created in the integrations UI."""
     config = hass.data[DOMAIN][entry.entry_id]
 
     email = config[CONF_EMAIL]
@@ -47,22 +47,24 @@ async def async_setup_entry(
 
 
 class HiMamaSensor(Entity):
-    """Representation of a Hi Mama Sensor."""
+    """Representation of a HiMama Sensor."""
 
     def __init__(self, data, hi_mama_data) -> None:
-        """Initialize the Hi Mama sensor."""
+        """Initialize the HiMama sensor."""
         self._state = None
         self._data = data
         self._hi_mama_data = hi_mama_data
 
     @property
     def name(self) -> str:
+        """Return the name of the HiMama sensor."""
         if "At Daycare" in self._data[0]:
             return f"HiMama {self._data[0]}"
         return f"HiMama Latest {self._data[0]}"
 
     @property
     def state(self) -> datetime:
+        """Return the state of the HiMama sensor."""
         return (
             self._data[1]
             if "At Daycare" in self._data[0]
@@ -71,6 +73,7 @@ class HiMamaSensor(Entity):
 
     @property
     def extra_state_attributes(self) -> str:
+        """Return entity specific state attributes for HiMama."""
         if "At Daycare" in self._data[0]:
             return
         for (key, value) in self._data[1].items():
@@ -104,7 +107,7 @@ class HiMamaSensor(Entity):
         return "mdi:baby-face-outline"
 
     def update(self) -> None:
-        """Update data from Hi Mama for the sensor."""
+        """Update data from HiMama for the sensor."""
         self._hi_mama_data.update()
         for data in self._hi_mama_data.data.items():
             if self._data[0] in data[0]:
@@ -113,7 +116,7 @@ class HiMamaSensor(Entity):
 
 # TODO: PYPI package
 class HiMamaData:
-    """Coordinate retrieving and updating data from Hi Mama."""
+    """Coordinate retrieving and updating data from HiMama."""
 
     def __init__(self, email: str, password: str, child_id: int) -> None:
         """Initialize the HiMamaData object."""
@@ -123,11 +126,12 @@ class HiMamaData:
         self._child_id = child_id
 
     def HiMamaQuery(self) -> dict:
+        """Query HiMama for data."""
         pymama_data = pymama_query(self._email, self._password, self._child_id)
         pymama_latest = pymama_data.get("Latest")
         pymama_latest["At Daycare"] = pymama_data.get("At Daycare")
         return pymama_latest
 
     def update(self) -> None:
-        """Update data from Hi Mama via HiMamaQuery."""
+        """Update data from HiMama via HiMamaQuery."""
         self.data = self.HiMamaQuery()
