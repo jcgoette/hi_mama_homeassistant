@@ -2,8 +2,6 @@
 import logging
 from datetime import datetime, time, timedelta
 
-import homeassistant.helpers.config_validation as cv
-import voluptuous as vol
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_EMAIL, CONF_ID, CONF_PASSWORD
 from homeassistant.core import HomeAssistant
@@ -87,6 +85,7 @@ class HiMamaSensor(Entity):
 
     @property
     def icon(self) -> str:
+        """Return the icon to use in HiMama frontend."""
         if self._data[0] == "Activities":
             return "mdi:run-fast"
         elif self._data[0] == "Bathroom":
