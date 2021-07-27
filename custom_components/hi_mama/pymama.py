@@ -91,9 +91,12 @@ def pymama_query(login: str, password: str, child_id: str) -> dict:
         response = BeautifulSoup(response, "html.parser")
 
         response_h2 = response.find_all("h2")
-        for h2 in response_h2:
+        for i2, h2 in enumerate(response_h2):
             h2_text = h2.get_text(strip=True)
             h2_next_siblings = h2.next_sibling.contents
+            # TODO: needs refactor
+            if i == 0 and i2 == 0:
+                child_dict["At Daycare"] = True if "Preview" in h2_text else False
             if "Preview" not in h2_text:
                 if "Report" in h2_text:
                     if i == 0:
@@ -118,7 +121,6 @@ def pymama_query(login: str, password: str, child_id: str) -> dict:
                                 report_parser(next_sibling.get_text(strip=True)),
                             )
                         report_dict[report_dict_key] = report_dict_value
-            child_dict["At Daycare"] = True if "Preview" in h2_text else False
         child_dict[f"Report {i}"] = report_dict
 
     latest_dict = {}
