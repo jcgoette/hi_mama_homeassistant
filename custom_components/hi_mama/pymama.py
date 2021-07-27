@@ -118,6 +118,7 @@ def pymama_query(login: str, password: str, child_id: str) -> dict:
                                 report_parser(next_sibling.get_text(strip=True)),
                             )
                         report_dict[report_dict_key] = report_dict_value
+            child_dict["At Daycare"] = True if "Preview" in h2_text else False
         child_dict[f"Report {i}"] = report_dict
 
     latest_dict = {}

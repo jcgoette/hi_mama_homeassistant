@@ -57,17 +57,22 @@ class HiMamaSensor(Entity):
 
     @property
     def name(self) -> str:
-        """Return the name of the Hi Mama sensor."""
+        if "At Daycare" in self._data[0]:
+            return f"HiMama {self._data[0]}"
         return f"HiMama Latest {self._data[0]}"
 
     @property
     def state(self) -> datetime:
-        """Return the state of the Hi Mama sensor."""
-        return self._data[1].get("Date")
+        return (
+            self._data[1]
+            if "At Daycare" in self._data[0]
+            else self._data[1].get("Date")
+        )
 
     @property
     def extra_state_attributes(self) -> str:
-        """Return entity specific state attributes for Hi Mama."""
+        if "At Daycare" in self._data[0]:
+            return
         for (key, value) in self._data[1].items():
             if "Value" in key:
                 new_value = ()
@@ -94,6 +99,8 @@ class HiMamaSensor(Entity):
             return "mdi:sleep"
         elif self._data[0] == "Notes":
             return "mdi:note-multiple-outline"
+        elif self._data[0] == "At Daycare":
+            return "mdi:map-marker-radius-outline"
         return "mdi:baby-face-outline"
 
     def update(self) -> None:
@@ -118,6 +125,7 @@ class HiMamaData:
     def HiMamaQuery(self) -> dict:
         pymama_data = pymama_query(self._email, self._password, self._child_id)
         pymama_latest = pymama_data.get("Latest")
+        pymama_latest["At Daycare"] = pymama_data.get("At Daycare")
         return pymama_latest
 
     def update(self) -> None:
