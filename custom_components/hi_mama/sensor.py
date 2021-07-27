@@ -63,11 +63,10 @@ class HiMamaSensor(Entity):
     @property
     def state(self) -> datetime:
         """Return the state of the HiMama sensor."""
-        return (
-            self._data[1]
-            if "At Daycare" in self._data[0]
-            else self._data[1].get("Date")
-        )
+        if "At Daycare" in self._data[0]:
+            return "on" if self._data[1] else "off"
+        else:
+            return self._data[1].get("Date")
 
     @property
     def extra_state_attributes(self) -> str:
@@ -127,6 +126,7 @@ class HiMamaData:
         """Query HiMama for data."""
         pymama_data = pymama_query(self._email, self._password, self._child_id)
         pymama_latest = pymama_data.get("Latest")
+        # TODO: move to binary_sensor
         pymama_latest["At Daycare"] = pymama_data.get("At Daycare")
         return pymama_latest
 
