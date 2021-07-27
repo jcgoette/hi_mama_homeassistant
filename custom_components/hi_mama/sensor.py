@@ -86,8 +86,7 @@ class HiMamaSensor(Entity):
                 return {key.lower(): new_value}
 
     @property
-    def icon(self):
-        """Return the icon to use in Hi Mama frontend."""
+    def icon(self) -> str:
         if self._data[0] == "Activities":
             return "mdi:run-fast"
         elif self._data[0] == "Bathroom":
