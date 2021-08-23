@@ -1,0 +1,18 @@
+{
+  "ignorePaths": [
+    ".cspell.json",
+    ".github",
+    ".gitignore",
+    ".pyc",
+    "LICENSE",
+    "manifest.json"
+  ],
+  "ignoreWords": [
+    "hacs",
+    "hass",
+    "homeassistant",
+    "isort",
+    "noline"
+  ],
+  "language": "en"
+}

@@ -15,16 +15,16 @@ session = requests.Session()
 
 
 def response_noline(url: str) -> str:
-    """Given a url, returns a Requests session reponse text with newlines removed"""
+    """Given a url, returns a Requests session response text with newlines removed"""
     response = session.get(url)
     response = response.text
     response = response.replace("\n", "")
     return response
 
 
-def flatten_dict(unflat_dict: dict, date: datetime = None):
+def flatten_dict(nested_dict: dict, date: datetime = None):
     """Given a dictionary, will create a generator to flatten into tuple"""
-    for key, value in unflat_dict.items():
+    for key, value in nested_dict.items():
         if isinstance(value, dict):
             yield from flatten_dict(value, value.get("Date", None))
         if isinstance(value, tuple):
