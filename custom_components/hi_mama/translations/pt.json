@@ -1,0 +1,14 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "HiMama Informação de login",
+        "data": {
+          "email": "email",
+          "password": "senha",
+          "id": "Identificador da criança"
+        }
+      }
+    }
+  }
+}
